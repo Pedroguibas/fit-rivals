@@ -1,9 +1,9 @@
 import Button from "@/components/ui/Button";
 import Chip from "@/components/ui/Chip";
 import Input from "@/components/ui/Input";
+import { Lock } from "lucide-react-native";
 import { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 export default function HomeScreen() {
   const [chipState, setChipState] = useState({
@@ -23,14 +23,15 @@ export default function HomeScreen() {
   };
 
   return (
-    <KeyboardAwareScrollView>
+    <ScrollView contentContainerStyle={styles.body}>
       <View style={styles.container}>
         <Input
-          icon={<Text>🔒</Text>}
+          icon={Lock}
+          type="password"
           style={{ width: 250 }}
-          placeholder="digite algo ai capeta"
+          placeholder="Senha"
           value={text}
-          onChangeText={(txt: string) => setText(txt)}
+          onChangeText={setText}
         />
         <Button>
           <Text style={styles.text}>Primary</Text>
@@ -59,18 +60,20 @@ export default function HomeScreen() {
           />
         </View>
       </View>
-    </KeyboardAwareScrollView>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  body: {
+    flexGrow: 1,
+  },
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     gap: 16,
     backgroundColor: "#121316",
-    paddingVertical: 600,
   },
   text: {
     color: "#FFFFFF",
