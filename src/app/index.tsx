@@ -1,7 +1,9 @@
 import Button from "@/components/ui/Button";
 import Chip from "@/components/ui/Chip";
+import Input from "@/components/ui/Input";
+import { Lock } from "lucide-react-native";
 import { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 export default function HomeScreen() {
   const [chipState, setChipState] = useState({
@@ -9,6 +11,7 @@ export default function HomeScreen() {
     second: true,
     third: false,
   });
+  const [text, setText] = useState("");
 
   const changeChipState = (name: "first" | "second" | "third") => {
     setChipState({
@@ -20,38 +23,51 @@ export default function HomeScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <Button>
-        <Text style={styles.text}>Primary</Text>
-      </Button>
-      <Button variant="danger">
-        <Text style={styles.text}>Danger</Text>
-      </Button>
-      <Button variant="confirm">
-        <Text style={styles.text}>Confirm</Text>
-      </Button>
-      <View style={styles.chipContainer}>
-        <Chip
-          label="first"
-          onPress={() => changeChipState("first")}
-          value={chipState.first}
+    <ScrollView contentContainerStyle={styles.body}>
+      <View style={styles.container}>
+        <Input
+          icon={Lock}
+          type="password"
+          style={{ width: 250 }}
+          placeholder="Senha"
+          value={text}
+          onChangeText={setText}
         />
-        <Chip
-          label="second"
-          onPress={() => changeChipState("second")}
-          value={chipState.second}
-        />
-        <Chip
-          label="third"
-          onPress={() => changeChipState("third")}
-          value={chipState.third}
-        />
+        <Button>
+          <Text style={styles.text}>Primary</Text>
+        </Button>
+        <Button variant="danger">
+          <Text style={styles.text}>Danger</Text>
+        </Button>
+        <Button variant="confirm">
+          <Text style={styles.text}>Confirm</Text>
+        </Button>
+        <View style={styles.chipContainer}>
+          <Chip
+            label="first"
+            onPress={() => changeChipState("first")}
+            value={chipState.first}
+          />
+          <Chip
+            label="second"
+            onPress={() => changeChipState("second")}
+            value={chipState.second}
+          />
+          <Chip
+            label="third"
+            onPress={() => changeChipState("third")}
+            value={chipState.third}
+          />
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  body: {
+    flexGrow: 1,
+  },
   container: {
     flex: 1,
     justifyContent: "center",
