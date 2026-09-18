@@ -1,85 +1,66 @@
 import Button from "@/components/ui/Button";
-import Chip from "@/components/ui/Chip";
-import Input from "@/components/ui/Input";
-import { Lock } from "lucide-react-native";
-import { useState } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import ThemedText from "@/components/ui/Theme/ThemedText";
+import Colors from "@/constants/Colors";
+import { Image, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function HomeScreen() {
-  const [chipState, setChipState] = useState({
-    first: false,
-    second: true,
-    third: false,
-  });
-  const [text, setText] = useState("");
-
-  const changeChipState = (name: "first" | "second" | "third") => {
-    setChipState({
-      first: false,
-      second: false,
-      third: false,
-      [name]: true,
-    });
-  };
-
   return (
-    <ScrollView contentContainerStyle={styles.body}>
-      <View style={styles.container}>
-        <Input
-          icon={Lock}
-          type="password"
-          style={{ width: 250 }}
-          placeholder="Senha"
-          value={text}
-          onChangeText={setText}
+    <SafeAreaView style={styles.container}>
+      <View style={styles.backgroundImageContainer}>
+        <Image
+          style={styles.backgroundImage}
+          source={require("@/assets/images/landing_bg.png")}
         />
-        <Button>
-          <Text style={styles.text}>Primary</Text>
-        </Button>
-        <Button variant="danger">
-          <Text style={styles.text}>Danger</Text>
-        </Button>
-        <Button variant="confirm">
-          <Text style={styles.text}>Confirm</Text>
-        </Button>
-        <View style={styles.chipContainer}>
-          <Chip
-            label="first"
-            onPress={() => changeChipState("first")}
-            value={chipState.first}
-          />
-          <Chip
-            label="second"
-            onPress={() => changeChipState("second")}
-            value={chipState.second}
-          />
-          <Chip
-            label="third"
-            onPress={() => changeChipState("third")}
-            value={chipState.third}
-          />
-        </View>
       </View>
-    </ScrollView>
+      <Button style={styles.button}>
+        <ThemedText fontSize={18}>Get Started</ThemedText>
+      </Button>
+      <Button style={[styles.button, styles.googleButton]}>
+        <Image
+          style={styles.googleIcon}
+          source={require("@/assets/icons/google.png")}
+        />
+        <Text style={{ fontSize: 18 }}>Join with Google</Text>
+      </Button>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  body: {
-    flexGrow: 1,
-  },
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-end",
     alignItems: "center",
-    gap: 16,
-    backgroundColor: "#121316",
+    gap: 8,
+    backgroundColor: Colors.background,
+    paddingHorizontal: 16,
+    paddingBottom: 8,
   },
-  text: {
-    color: "#FFFFFF",
+  backgroundImageContainer: {
+    position: "absolute",
+    zIndex: -1,
+    top: 0,
+    bottom: 0,
+  },
+  backgroundImage: {
+    resizeMode: "contain",
+    height: "100%",
   },
   chipContainer: {
     flexDirection: "row",
     gap: 4,
+  },
+  button: {
+    width: "100%",
+    paddingVertical: 10,
+  },
+  googleButton: {
+    backgroundColor: "#FFFFFF",
+    gap: 8,
+  },
+  googleIcon: {
+    width: 20,
+    height: 20,
   },
 });

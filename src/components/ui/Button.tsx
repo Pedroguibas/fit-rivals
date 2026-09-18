@@ -1,3 +1,4 @@
+import Colors from "@/constants/Colors";
 import { Pressable, StyleSheet, type PressableProps } from "react-native";
 
 export interface ButtonProps extends PressableProps {
@@ -28,7 +29,7 @@ const styles = StyleSheet.create({
   button: {
     paddingVertical: 4,
     paddingHorizontal: 8,
-    borderRadius: 5,
+    borderRadius: 8,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
@@ -37,12 +38,12 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
   },
   primary: {
-    backgroundColor: "#F03100",
+    backgroundColor: Colors.primary,
   },
   danger: {
-    backgroundColor: "#DC3545",
+    backgroundColor: Colors.danger,
   },
   confirm: {
-    backgroundColor: "#008000",
+    backgroundColor: Colors.confirm,
   },
 });
