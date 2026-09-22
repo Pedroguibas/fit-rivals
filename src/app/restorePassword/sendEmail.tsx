@@ -1,7 +1,7 @@
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
+import ThemedKeyboardAwareScrollView from "@/components/ui/Theme/ThemedKeyboardAwareScrollView";
 import ThemedLink from "@/components/ui/Theme/ThemedLink";
-import ThemedSafeAreaView from "@/components/ui/Theme/ThemedSafeAreaView";
 import ThemedText from "@/components/ui/Theme/ThemedText";
 import Logo from "@/contexts/Logo";
 import { useToast } from "@/contexts/ToastContext";
@@ -31,7 +31,7 @@ const RestorePassword = () => {
   };
 
   return (
-    <ThemedSafeAreaView style={styles.container}>
+    <ThemedKeyboardAwareScrollView contentContainerStyle={styles.container}>
       <Logo loginStyled />
       <ThemedText variant="secondary">
         Um código será enviado para o seu e-mail
@@ -50,13 +50,12 @@ const RestorePassword = () => {
           cancelar
         </ThemedLink>
       </View>
-    </ThemedSafeAreaView>
+    </ThemedKeyboardAwareScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
     justifyContent: "center",
     alignItems: "center",
     paddingVertical: 80,

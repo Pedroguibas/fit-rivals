@@ -1,9 +1,10 @@
 import Button from "@/components/ui/Button";
+import ThemedKeyboardAwareScrollView from "@/components/ui/Theme/ThemedKeyboardAwareScrollView";
 import ThemedLink from "@/components/ui/Theme/ThemedLink";
-import ThemedSafeAreaView from "@/components/ui/Theme/ThemedSafeAreaView";
 import ThemedText from "@/components/ui/Theme/ThemedText";
 import Colors from "@/constants/Colors";
 import Logo from "@/contexts/Logo";
+import { useToast } from "@/contexts/ToastContext";
 import { router, useLocalSearchParams } from "expo-router";
 import { RefObject, useRef, useState } from "react";
 import { Pressable, StyleSheet, TextInput, View } from "react-native";
@@ -57,6 +58,7 @@ const CodeInput = ({
 
 const ConfirmCode = () => {
   const { email } = useLocalSearchParams<{ email: string }>();
+  const callToast = useToast();
   const [nums, setNums] = useState({
     n1: "",
     n2: "",
@@ -75,7 +77,13 @@ const ConfirmCode = () => {
   const handleSubmit = () => {
     const code = nums.n1 + nums.n2 + nums.n3 + nums.n4 + nums.n5 + nums.n6;
 
-    console.log(code);
+    if (code.length < 6) {
+      callToast({
+        variant: "danger",
+        message: "Código inválido",
+      });
+      return;
+    }
 
     router.replace({
       pathname: "/restorePassword/restorePasswordForm",
@@ -84,7 +92,7 @@ const ConfirmCode = () => {
   };
 
   return (
-    <ThemedSafeAreaView style={styles.container}>
+    <ThemedKeyboardAwareScrollView contentContainerStyle={styles.container}>
       <Logo loginStyled />
       <View style={styles.inputsContainer}>
         <CodeInput
@@ -153,13 +161,12 @@ const ConfirmCode = () => {
           <ThemedText>Reenviar</ThemedText>
         </Button>
       </View>
-    </ThemedSafeAreaView>
+    </ThemedKeyboardAwareScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
     justifyContent: "center",
     alignItems: "center",
     paddingVertical: 80,

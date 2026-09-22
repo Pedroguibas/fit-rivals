@@ -1,15 +1,14 @@
 import GoogleButton from "@/components/GoogleButton";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
+import ThemedKeyboardAwareScrollView from "@/components/ui/Theme/ThemedKeyboardAwareScrollView";
 import ThemedLink from "@/components/ui/Theme/ThemedLink";
 import ThemedText from "@/components/ui/Theme/ThemedText";
-import Colors from "@/constants/Colors";
 import Logo from "@/contexts/Logo";
 import { useToast } from "@/contexts/ToastContext";
 import { CircleX, Lock, User } from "lucide-react-native";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const Login = () => {
   const [data, setData] = useState({
@@ -58,13 +57,7 @@ const Login = () => {
   };
 
   return (
-    <KeyboardAwareScrollView
-      enableOnAndroid
-      style={{ flex: 1, backgroundColor: Colors.background }}
-      contentContainerStyle={styles.container}
-      extraScrollHeight={20}
-      keyboardShouldPersistTaps="handled"
-    >
+    <ThemedKeyboardAwareScrollView contentContainerStyle={styles.container}>
       <Logo loginStyled />
       <ThemedText fontSize={20} style={{ fontWeight: 700 }}>
         Login
@@ -100,13 +93,12 @@ const Login = () => {
           </Button>
         </View>
       </View>
-    </KeyboardAwareScrollView>
+    </ThemedKeyboardAwareScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
     justifyContent: "center",
     alignItems: "center",
     gap: 32,

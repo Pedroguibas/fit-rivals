@@ -1,23 +1,16 @@
 import GoogleButton from "@/components/GoogleButton";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
+import ThemedKeyboardAwareScrollView from "@/components/ui/Theme/ThemedKeyboardAwareScrollView";
 import ThemedLink from "@/components/ui/Theme/ThemedLink";
 import ThemedText from "@/components/ui/Theme/ThemedText";
-import Colors from "@/constants/Colors";
 import Logo from "@/contexts/Logo";
 import { Lock, Mail, User } from "lucide-react-native";
 import { StyleSheet, View } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const Signup = () => {
   return (
-    <KeyboardAwareScrollView
-      enableOnAndroid
-      style={{ flex: 1, backgroundColor: Colors.background }}
-      contentContainerStyle={styles.container}
-      extraScrollHeight={20}
-      keyboardShouldPersistTaps="handled"
-    >
+    <ThemedKeyboardAwareScrollView contentContainerStyle={styles.container}>
       <Logo loginStyled />
       <ThemedText fontSize={20} style={{ fontWeight: 700 }}>
         Cadastre-se
@@ -40,13 +33,12 @@ const Signup = () => {
           </Button>
         </View>
       </View>
-    </KeyboardAwareScrollView>
+    </ThemedKeyboardAwareScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
     justifyContent: "center",
     alignItems: "center",
     paddingVertical: 80,

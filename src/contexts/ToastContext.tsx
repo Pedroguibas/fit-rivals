@@ -53,7 +53,7 @@ export const ToastProvider = ({ children }: PropsWithChildren) => {
     });
     opacity.value = withTiming(1, { duration: 250 });
 
-    const timer = setTimeout(hideCurrent, current.activeTime || 5000);
+    const timer = setTimeout(hideCurrent, current.activeTime || 3000);
     return () => clearTimeout(timer);
   }, [current]);
 
