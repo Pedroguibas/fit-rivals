@@ -1,29 +1,27 @@
+import GoogleButton from "@/components/GoogleButton";
 import Button from "@/components/ui/Button";
+import ThemedSafeAreaView from "@/components/ui/Theme/ThemedSafeAreaView";
 import ThemedText from "@/components/ui/Theme/ThemedText";
 import Colors from "@/constants/Colors";
-import { Image, StyleSheet, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useRouter } from "expo-router";
+import { Image, StyleSheet, View } from "react-native";
 
 export default function HomeScreen() {
+  const router = useRouter();
+
   return (
-    <SafeAreaView style={styles.container}>
+    <ThemedSafeAreaView style={styles.container}>
       <View style={styles.backgroundImageContainer}>
         <Image
           style={styles.backgroundImage}
           source={require("@/assets/images/landing_bg.png")}
         />
       </View>
-      <Button style={styles.button}>
+      <Button onPress={() => router.replace("/login")} style={styles.button}>
         <ThemedText fontSize={18}>Get Started</ThemedText>
       </Button>
-      <Button style={[styles.button, styles.googleButton]}>
-        <Image
-          style={styles.googleIcon}
-          source={require("@/assets/icons/google.png")}
-        />
-        <Text style={{ fontSize: 18 }}>Join with Google</Text>
-      </Button>
-    </SafeAreaView>
+      <GoogleButton style={styles.button} />
+    </ThemedSafeAreaView>
   );
 }
 
@@ -33,11 +31,9 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     alignItems: "center",
     gap: 8,
-    backgroundColor: Colors.background,
-    paddingHorizontal: 16,
-    paddingBottom: 8,
   },
   backgroundImageContainer: {
+    backgroundColor: Colors.background,
     position: "absolute",
     zIndex: -1,
     top: 0,
@@ -54,13 +50,5 @@ const styles = StyleSheet.create({
   button: {
     width: "100%",
     paddingVertical: 10,
-  },
-  googleButton: {
-    backgroundColor: "#FFFFFF",
-    gap: 8,
-  },
-  googleIcon: {
-    width: 20,
-    height: 20,
   },
 });

@@ -16,12 +16,14 @@ export interface InputProps extends Omit<
   type?: "text" | "number" | "email" | "password";
   icon?: LucideIcon;
   style?: ViewStyle;
+  fontSize?: number;
 }
 
 export default function Input({
   type = "text",
   icon: Icon,
   style,
+  fontSize = 16,
   onChangeText,
   ...props
 }: InputProps) {
@@ -36,10 +38,10 @@ export default function Input({
 
   return (
     <View style={[styles.container, focus ? styles.focus : styles.blur, style]}>
-      {Icon && <Icon color="#CCCCCC" size={16} />}
+      {Icon && <Icon color="#CCCCCC" size={fontSize + 4} />}
       <TextInput
         secureTextEntry={type == "password" && showingPassword}
-        style={styles.input}
+        style={[styles.input, { fontSize }]}
         placeholderTextColor="#999"
         onChangeText={type == "number" ? handleChangeNumber : onChangeText}
         keyboardType={
@@ -75,12 +77,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 8,
     paddingHorizontal: 8,
+    width: "100%",
     alignItems: "center",
   },
   input: {
     color: "#fff",
+    width: "100%",
     flex: 1,
-    paddingVertical: 0,
+    paddingVertical: 8,
   },
   focus: {
     borderColor: "#F03100",

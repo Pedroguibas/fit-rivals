@@ -22,6 +22,7 @@ const ThemedText = ({
               : Colors.foregroundSecondary,
           fontSize: fontSize,
         },
+        style,
       ]}
       {...props}
     />
