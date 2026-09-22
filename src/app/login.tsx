@@ -4,10 +4,11 @@ import Input from "@/components/ui/Input";
 import ThemedLink from "@/components/ui/Theme/ThemedLink";
 import ThemedText from "@/components/ui/Theme/ThemedText";
 import Colors from "@/constants/Colors";
+import Logo from "@/contexts/Logo";
 import { useToast } from "@/contexts/ToastContext";
 import { CircleX, Lock, User } from "lucide-react-native";
 import { useState } from "react";
-import { Dimensions, Image, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const Login = () => {
@@ -64,7 +65,7 @@ const Login = () => {
       extraScrollHeight={20}
       keyboardShouldPersistTaps="handled"
     >
-      <Image style={styles.logo} source={require("@/assets/images/logo.png")} />
+      <Logo loginStyled />
       <ThemedText fontSize={20} style={{ fontWeight: 700 }}>
         Login
       </ThemedText>
@@ -87,7 +88,7 @@ const Login = () => {
             <ThemedLink replace href="/signup" fontSize={12}>
               cadastre-se
             </ThemedLink>
-            <ThemedLink replace href="/" fontSize={12}>
+            <ThemedLink href="/restorePassword/sendEmail" fontSize={12}>
               esqueceu sua senha?
             </ThemedLink>
           </View>
@@ -103,22 +104,12 @@ const Login = () => {
   );
 };
 
-const screenW = Dimensions.get("window").width;
-const logoW = screenW * 0.5;
-const LOGO_RATIO = 933 / 266;
-
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     justifyContent: "center",
     alignItems: "center",
     gap: 32,
-  },
-  logo: {
-    width: logoW,
-    height: logoW / LOGO_RATIO,
-    resizeMode: "contain",
-    padding: 0,
   },
   form: {
     width: "100%",

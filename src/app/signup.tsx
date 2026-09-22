@@ -4,8 +4,9 @@ import Input from "@/components/ui/Input";
 import ThemedLink from "@/components/ui/Theme/ThemedLink";
 import ThemedText from "@/components/ui/Theme/ThemedText";
 import Colors from "@/constants/Colors";
+import Logo from "@/contexts/Logo";
 import { Lock, Mail, User } from "lucide-react-native";
-import { Dimensions, Image, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const Signup = () => {
@@ -17,7 +18,7 @@ const Signup = () => {
       extraScrollHeight={20}
       keyboardShouldPersistTaps="handled"
     >
-      <Image style={styles.logo} source={require("@/assets/images/logo.png")} />
+      <Logo loginStyled />
       <ThemedText fontSize={20} style={{ fontWeight: 700 }}>
         Cadastre-se
       </ThemedText>
@@ -43,10 +44,6 @@ const Signup = () => {
   );
 };
 
-const screenW = Dimensions.get("window").width;
-const logoW = screenW * 0.5;
-const LOGO_RATIO = 933 / 266;
-
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
@@ -54,12 +51,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 80,
     gap: 32,
-  },
-  logo: {
-    width: logoW,
-    height: logoW / LOGO_RATIO,
-    resizeMode: "contain",
-    padding: 0,
   },
   form: {
     width: "100%",
