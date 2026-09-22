@@ -17,6 +17,7 @@ export default function Button({
         styles.button,
         styles[variant],
         typeof style == "function" ? style(state) : style,
+        props.disabled && { opacity: 0.8 },
       ]}
       {...props}
     >

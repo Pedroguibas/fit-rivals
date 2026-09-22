@@ -1,4 +1,5 @@
 import GoogleButton from "@/components/GoogleButton";
+import Loading from "@/components/Loading";
 import Logo from "@/components/Logo";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
@@ -21,7 +22,7 @@ const Login = () => {
   let lastSubmitTryData: { user: string; password: string } | undefined =
     undefined;
 
-  const { login } = useAuth();
+  const { login, loading } = useAuth();
 
   const handleChange = (name: "user" | "password", value: string) => {
     setData((prev) => ({
@@ -48,9 +49,9 @@ const Login = () => {
     }
 
     try {
-      await login(data.user, data.password);
+      await login(data.user.trim(), data.password.trim());
 
-      router.replace("/app/");
+      router.replace("/app");
     } catch {
       callToast({
         variant: "danger",
@@ -92,9 +93,17 @@ const Login = () => {
           </View>
         </View>
         <View style={styles.buttonsContainer}>
-          <GoogleButton iconOnly style={styles.button} />
-          <Button style={styles.button} onPress={handleSubmit}>
-            <ThemedText>Login</ThemedText>
+          <GoogleButton iconOnly style={styles.button} disabled={loading} />
+          <Button
+            style={styles.button}
+            onPress={handleSubmit}
+            disabled={loading}
+          >
+            {loading ? (
+              <Loading style={{ height: 12 }} />
+            ) : (
+              <ThemedText>Login</ThemedText>
+            )}
           </Button>
         </View>
       </View>

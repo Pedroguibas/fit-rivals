@@ -52,6 +52,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       await storeTokens(tokens);
     } catch (e) {
       console.error(e);
+      throw new Error("invalid credentials");
     } finally {
       setLoading(false);
     }
