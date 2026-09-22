@@ -1,9 +1,9 @@
+import Logo from "@/components/Logo";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import ThemedKeyboardAwareScrollView from "@/components/ui/Theme/ThemedKeyboardAwareScrollView";
 import ThemedLink from "@/components/ui/Theme/ThemedLink";
 import ThemedText from "@/components/ui/Theme/ThemedText";
-import Logo from "@/contexts/Logo";
 import { useToast } from "@/contexts/ToastContext";
 import { router } from "expo-router";
 import { useState } from "react";

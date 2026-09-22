@@ -1,11 +1,13 @@
 import GoogleButton from "@/components/GoogleButton";
+import Logo from "@/components/Logo";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import ThemedKeyboardAwareScrollView from "@/components/ui/Theme/ThemedKeyboardAwareScrollView";
 import ThemedLink from "@/components/ui/Theme/ThemedLink";
 import ThemedText from "@/components/ui/Theme/ThemedText";
-import Logo from "@/contexts/Logo";
+import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/contexts/ToastContext";
+import { router } from "expo-router";
 import { CircleX, Lock, User } from "lucide-react-native";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
@@ -19,6 +21,8 @@ const Login = () => {
   let lastSubmitTryData: { user: string; password: string } | undefined =
     undefined;
 
+  const { login } = useAuth();
+
   const handleChange = (name: "user" | "password", value: string) => {
     setData((prev) => ({
       ...prev,
@@ -26,7 +30,7 @@ const Login = () => {
     }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (data == lastSubmitTryData) return;
 
     lastSubmitTryData = data;
@@ -44,8 +48,9 @@ const Login = () => {
     }
 
     try {
-      // Login logic
-      throw new Error();
+      await login(data.user, data.password);
+
+      router.replace("/app/");
     } catch {
       callToast({
         variant: "danger",

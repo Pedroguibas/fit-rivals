@@ -1,10 +1,10 @@
 import GoogleButton from "@/components/GoogleButton";
+import Logo from "@/components/Logo";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import ThemedKeyboardAwareScrollView from "@/components/ui/Theme/ThemedKeyboardAwareScrollView";
 import ThemedLink from "@/components/ui/Theme/ThemedLink";
 import ThemedText from "@/components/ui/Theme/ThemedText";
-import Logo from "@/contexts/Logo";
 import { Lock, Mail, User } from "lucide-react-native";
 import { StyleSheet, View } from "react-native";
 
