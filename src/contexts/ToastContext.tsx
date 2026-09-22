@@ -8,6 +8,7 @@ import {
   useState,
 } from "react";
 import { StyleSheet } from "react-native";
+import { useReanimatedKeyboardAnimation } from "react-native-keyboard-controller";
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -34,6 +35,7 @@ export const ToastProvider = ({ children }: PropsWithChildren) => {
 
   const translateY = useSharedValue(100);
   const opacity = useSharedValue(0);
+  const { height: keyboardHeight } = useReanimatedKeyboardAnimation();
 
   useEffect(() => {
     if (!current && queue.length > 0) {
@@ -69,6 +71,10 @@ export const ToastProvider = ({ children }: PropsWithChildren) => {
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ translateY: translateY.value }],
     opacity: opacity.value,
+    bottom:
+      24 +
+      Math.abs(keyboardHeight.value) +
+      (keyboardHeight.value !== 0 ? 16 : 0),
   }));
 
   return (
@@ -92,7 +98,6 @@ export const ToastProvider = ({ children }: PropsWithChildren) => {
 const styles = StyleSheet.create({
   toast: {
     position: "absolute",
-    bottom: 40,
     left: 16,
     right: 16,
   },

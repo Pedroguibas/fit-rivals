@@ -7,7 +7,7 @@ import Colors from "@/constants/Colors";
 import { useToast } from "@/contexts/ToastContext";
 import { CircleX, Lock, User } from "lucide-react-native";
 import { useState } from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { Dimensions, Image, StyleSheet, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const Login = () => {
@@ -16,13 +16,44 @@ const Login = () => {
     password: "",
   });
   const callToast = useToast();
-  const [showFailMessage, setShowFailMessage] = useState(true);
+  let lastSubmitTryData: { user: string; password: string } | undefined =
+    undefined;
 
   const handleChange = (name: "user" | "password", value: string) => {
     setData((prev) => ({
       ...prev,
       [name]: value,
     }));
+  };
+
+  const handleSubmit = () => {
+    if (data == lastSubmitTryData) return;
+
+    lastSubmitTryData = data;
+
+    if (data.user == "" || data.password == "") {
+      callToast({
+        variant: "danger",
+        icon: CircleX,
+        title: "Erro no Login",
+        message: "Os campos Usuário e Senha são obrigatórios.",
+        activeTime: 3000,
+      });
+
+      return;
+    }
+
+    try {
+      // Login logic
+      throw new Error();
+    } catch {
+      callToast({
+        variant: "danger",
+        icon: CircleX,
+        title: "Erro no Login",
+        message: "Credenciais inválidas.",
+      });
+    }
   };
 
   return (
@@ -53,7 +84,7 @@ const Login = () => {
             onChangeText={(text) => handleChange("password", text)}
           />
           <View style={styles.links}>
-            <ThemedLink replace href="/" fontSize={12}>
+            <ThemedLink replace href="/signup" fontSize={12}>
               cadastre-se
             </ThemedLink>
             <ThemedLink replace href="/" fontSize={12}>
@@ -63,17 +94,7 @@ const Login = () => {
         </View>
         <View style={styles.buttonsContainer}>
           <GoogleButton iconOnly style={styles.button} />
-          <Button
-            style={styles.button}
-            onPress={() => {
-              callToast({
-                variant: "danger",
-                icon: CircleX,
-                title: "Erro no Login",
-                message: "Credenciais inválidas",
-              });
-            }}
-          >
+          <Button style={styles.button} onPress={handleSubmit}>
             <ThemedText>Login</ThemedText>
           </Button>
         </View>
@@ -81,6 +102,10 @@ const Login = () => {
     </KeyboardAwareScrollView>
   );
 };
+
+const screenW = Dimensions.get("window").width;
+const logoW = screenW * 0.5;
+const LOGO_RATIO = 933 / 266;
 
 const styles = StyleSheet.create({
   container: {
@@ -90,8 +115,8 @@ const styles = StyleSheet.create({
     gap: 32,
   },
   logo: {
-    width: "50%",
-    height: "10%",
+    width: logoW,
+    height: logoW / LOGO_RATIO,
     resizeMode: "contain",
     padding: 0,
   },
