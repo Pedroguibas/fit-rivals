@@ -8,14 +8,15 @@ import ThemedLink from "@/components/ui/Theme/ThemedLink";
 import ThemedText from "@/components/ui/Theme/ThemedText";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/contexts/ToastContext";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { CircleX, Lock, User } from "lucide-react-native";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 
 const Login = () => {
+  const { email: emailParam } = useLocalSearchParams<{ email: string }>();
   const [data, setData] = useState({
-    user: "",
+    user: emailParam || "",
     password: "",
   });
   const callToast = useToast();

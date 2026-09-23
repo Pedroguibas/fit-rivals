@@ -11,7 +11,6 @@ const Home = () => {
       <ThemedText>{user ? user.name : "não logado"}</ThemedText>
       <Button
         onPress={async () => {
-          console.log("clicou");
           await logout();
         }}
         variant="danger"

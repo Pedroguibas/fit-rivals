@@ -51,6 +51,7 @@ export default function Input({
               ? "email-address"
               : "default"
         }
+        autoCapitalize="none"
         onFocus={() => setFocus(true)}
         onBlur={() => setFocus(false)}
         {...props}
