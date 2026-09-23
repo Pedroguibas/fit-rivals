@@ -1,6 +1,7 @@
 import * as auth from "@/api/auth";
-import { Payload } from "@/types/Payload";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getSelf } from "@/api/users";
+import { getToken, resetTokens, storeToken } from "@/helpers/tokens";
+import { User } from "@/types/User";
 import {
   createContext,
   PropsWithChildren,
@@ -10,46 +11,61 @@ import {
 } from "react";
 
 export type AuthContextType = {
-  user: Payload | null;
+  user: User | null;
   refresh: () => Promise<void>;
   login: (user: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   loading: boolean;
+  initRefreshing: boolean;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
-  const [user, setUser] = useState<Payload | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
+  const [initRefreshing, setInitRefreshing] = useState(true);
 
   useEffect(() => {
-    refresh();
+    const firstRefresh = async () => {
+      setInitRefreshing(true);
+      try {
+        const token = await getToken("refresh");
+        if (!token) {
+          setInitRefreshing(false);
+          setUser(null);
+          return;
+        }
+
+        const newTokens = await auth.refresh(token);
+
+        await storeToken("refresh", newTokens.refresh_token);
+        await storeToken("access", newTokens.access_token);
+
+        const u = await getSelf();
+
+        setUser(u);
+      } catch (e) {
+        await resetTokens();
+        console.log(e);
+      } finally {
+        setInitRefreshing(false);
+      }
+    };
+    firstRefresh();
   }, []);
-
-  const getTokens = async (): Promise<{
-    access_token: String;
-    refresh_token: string;
-  }> => {
-    const tokens = await AsyncStorage.getItem("tokens");
-
-    if (!tokens) throw new Error("No tokens stored");
-    return JSON.parse(tokens);
-  };
-
-  const storeTokens = async (tokens: {
-    access_token: String;
-    refresh_token: string;
-  }) => {
-    await AsyncStorage.setItem("tokens", JSON.stringify(tokens));
-  };
 
   const login = async (user: string, password: string) => {
     setLoading(true);
     try {
       const tokens = await auth.login(user, password);
 
-      await storeTokens(tokens);
+      await storeToken("refresh", tokens.refresh_token);
+      await storeToken("access", tokens.access_token);
+
+      const u = await getSelf();
+
+      setUser(u);
     } catch (e) {
       console.error(e);
       throw new Error("invalid credentials");
@@ -61,15 +77,14 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const logout = async () => {
     setLoading(true);
     try {
-      const { refresh_token } = await getTokens();
+      const refresh_token = await getToken("refresh");
 
       await auth.logout(refresh_token);
-
-      await AsyncStorage.removeItem("tokens");
     } catch (e) {
-      setUser(null);
       console.log(e);
     } finally {
+      await resetTokens();
+      setUser(null);
       setLoading(false);
     }
   };
@@ -77,11 +92,12 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const refresh = async () => {
     setLoading(true);
     try {
-      const { refresh_token } = await getTokens();
+      const refresh_token = await getToken("refresh");
 
       const tokens = await auth.refresh(refresh_token);
 
-      await storeTokens(tokens);
+      await storeToken("refresh", tokens.refresh_token);
+      await storeToken("access", tokens.access_token);
     } catch (e) {
       setUser(null);
       console.error(e);
@@ -92,7 +108,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, loading, login, logout, refresh }}
+      value={{ user, loading, login, logout, refresh, initRefreshing }}
       children={children}
     />
   );

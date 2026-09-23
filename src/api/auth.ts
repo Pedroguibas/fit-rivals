@@ -17,11 +17,11 @@ export const login = async (
 export const refresh = async (
   refresh_token: string,
 ): Promise<{ access_token: string; refresh_token: string }> => {
-  const response = await publicApi.post("/auth/refresh", { refresh_token });
+  const { data } = await publicApi.post("/auth/refresh", { refresh_token });
 
-  if (!response.data) throw new Error();
+  if (!data.access_token) throw new Error();
 
-  return await response.data;
+  return data;
 };
 
 export const logout = async (refresh_token: string) => {
