@@ -1,7 +1,8 @@
+import Colors from "@/constants/Colors";
 import { Pressable, StyleSheet, type PressableProps } from "react-native";
 
 export interface ButtonProps extends PressableProps {
-  variant?: "primary" | "danger" | "confirm";
+  variant?: "primary" | "danger" | "success" | "neutral";
 }
 
 export default function Button({
@@ -16,6 +17,7 @@ export default function Button({
         styles.button,
         styles[variant],
         typeof style == "function" ? style(state) : style,
+        props.disabled && { opacity: 0.8 },
       ]}
       {...props}
     >
@@ -28,7 +30,7 @@ const styles = StyleSheet.create({
   button: {
     paddingVertical: 4,
     paddingHorizontal: 8,
-    borderRadius: 5,
+    borderRadius: 8,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
@@ -37,12 +39,15 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
   },
   primary: {
-    backgroundColor: "#F03100",
+    backgroundColor: Colors.primary,
   },
   danger: {
-    backgroundColor: "#DC3545",
+    backgroundColor: Colors.danger,
   },
-  confirm: {
-    backgroundColor: "#008000",
+  success: {
+    backgroundColor: Colors.success,
+  },
+  neutral: {
+    backgroundColor: Colors.backgroundSecondary,
   },
 });
