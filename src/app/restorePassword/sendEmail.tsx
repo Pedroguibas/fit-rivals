@@ -1,3 +1,5 @@
+import { restorePasswordRequest } from "@/api/auth";
+import Loading from "@/components/Loading";
 import Logo from "@/components/Logo";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
@@ -12,8 +14,10 @@ import { StyleSheet, View } from "react-native";
 const RestorePassword = () => {
   const [email, setEmail] = useState("");
   const callToast = useToast();
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    setLoading(true);
     const trimmed = email.trim();
     if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(trimmed)) {
       callToast({
@@ -21,13 +25,26 @@ const RestorePassword = () => {
         message: "Digire um email válido para continuar",
         variant: "danger",
       });
+      setLoading(false);
       return;
     }
 
-    router.push({
-      pathname: "/restorePassword/confirmCode",
-      params: { email: trimmed },
-    });
+    try {
+      await restorePasswordRequest(trimmed);
+
+      router.push({
+        pathname: "/restorePassword/confirmCode",
+        params: { email: trimmed },
+      });
+    } catch (e) {
+      callToast({
+        variant: "danger",
+        title: "Erro ao enviar email",
+        message: "tente novamente mais tarde",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -43,8 +60,8 @@ const RestorePassword = () => {
         onChangeText={setEmail}
       />
       <View style={styles.actions}>
-        <Button style={styles.button} onPress={handleSubmit}>
-          <ThemedText>Enviar Email</ThemedText>
+        <Button style={styles.button} onPress={handleSubmit} disabled={loading}>
+          {loading ? <Loading /> : <ThemedText>Enviar Email</ThemedText>}
         </Button>
         <ThemedLink fontSize={12} href={".."}>
           cancelar

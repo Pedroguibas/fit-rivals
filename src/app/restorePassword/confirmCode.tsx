@@ -1,3 +1,5 @@
+import { restorePasswordCheck, restorePasswordRequest } from "@/api/auth";
+import Loading from "@/components/Loading";
 import Logo from "@/components/Logo";
 import Button from "@/components/ui/Button";
 import ThemedKeyboardAwareScrollView from "@/components/ui/Theme/ThemedKeyboardAwareScrollView";
@@ -43,6 +45,9 @@ const CodeInput = ({
       style={[styles.inputContainer, focus && styles.focusedInputContainer]}
     >
       <TextInput
+        onKeyPress={({ nativeEvent }) => {
+          if (nativeEvent.key === "Backspace") handleChange("");
+        }}
         ref={ref}
         value={value}
         keyboardType="numeric"
@@ -74,7 +79,32 @@ const ConfirmCode = () => {
   const ref5 = useRef<TextInput>(null);
   const ref6 = useRef<TextInput>(null);
 
-  const handleSubmit = () => {
+  const [loading, setLoading] = useState(false);
+  const [resending, setResending] = useState(false);
+
+  const handleResend = async () => {
+    setResending(true);
+    try {
+      await restorePasswordRequest(email);
+
+      callToast({
+        variant: "success",
+        title: "Código reenviado",
+        message: "Verifique seu email",
+      });
+    } catch {
+      callToast({
+        variant: "danger",
+        title: "Erro ao reenviar o código",
+        message: "verifique o email e tente novamente",
+      });
+    } finally {
+      setResending(false);
+    }
+  };
+
+  const handleSubmit = async () => {
+    setLoading(true);
     const code = nums.n1 + nums.n2 + nums.n3 + nums.n4 + nums.n5 + nums.n6;
 
     if (code.length < 6) {
@@ -82,13 +112,28 @@ const ConfirmCode = () => {
         variant: "danger",
         message: "Código inválido",
       });
+      setLoading(false);
       return;
     }
 
-    router.replace({
-      pathname: "/restorePassword/restorePasswordForm",
-      params: { email },
-    });
+    try {
+      await restorePasswordCheck(email, code);
+
+      router.replace({
+        pathname: "/restorePassword/restorePasswordForm",
+        params: { email },
+      });
+    } catch (e) {
+      console.log(e);
+
+      callToast({
+        variant: "danger",
+        title: "Código inválido",
+        message: "Verifique se digitou corretamente",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -149,7 +194,7 @@ const ConfirmCode = () => {
         />
       </View>
       <Button style={styles.button} onPress={handleSubmit}>
-        <ThemedText>Confirmar</ThemedText>
+        {loading ? <Loading /> : <ThemedText>Confirmar</ThemedText>}
       </Button>
       <ThemedText variant="secondary" style={styles.paragraph}>
         Não recebeu o código? verifique se digitou o e-mail corretamente e envie
@@ -157,8 +202,17 @@ const ConfirmCode = () => {
       </ThemedText>
       <View style={styles.actions}>
         <ThemedLink href="..">voltar</ThemedLink>
-        <Button variant="neutral" style={{ paddingVertical: 8 }}>
-          <ThemedText>Reenviar</ThemedText>
+        <Button
+          onPress={handleResend}
+          variant="neutral"
+          style={{ paddingVertical: 8 }}
+          disabled={resending || loading}
+        >
+          {resending ? (
+            <Loading size={4} style={{ paddingHorizontal: 12 }} />
+          ) : (
+            <ThemedText>Reenviar</ThemedText>
+          )}
         </Button>
       </View>
     </ThemedKeyboardAwareScrollView>
@@ -195,7 +249,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "100%",
-    paddingVertical: 6,
+    paddingVertical: 8,
   },
   paragraph: {
     textAlign: "center",
