@@ -186,8 +186,12 @@ const Signup = () => {
           </ThemedLink>
         </View>
         <View style={styles.buttonsContainer}>
-          <GoogleButton iconOnly style={styles.button} />
-          <Button style={styles.button} onPress={handleSubmit}>
+          <GoogleButton iconOnly style={styles.button} disabled={loading} />
+          <Button
+            style={styles.button}
+            onPress={handleSubmit}
+            disabled={loading}
+          >
             {loading ? <Loading /> : <ThemedText>Criar conta</ThemedText>}
           </Button>
         </View>

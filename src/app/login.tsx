@@ -100,11 +100,7 @@ const Login = () => {
             onPress={handleSubmit}
             disabled={loading}
           >
-            {loading ? (
-              <Loading style={{ height: 12 }} />
-            ) : (
-              <ThemedText>Login</ThemedText>
-            )}
+            {loading ? <Loading /> : <ThemedText>Login</ThemedText>}
           </Button>
         </View>
       </View>

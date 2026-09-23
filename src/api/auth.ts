@@ -27,3 +27,18 @@ export const refresh = async (
 export const logout = async (refresh_token: string) => {
   await publicApi.post("/auth/logout", { refresh_token });
 };
+
+export const restorePasswordRequest = async (email: string) => {
+  await publicApi.post("/auth/password/restore/request", { email });
+};
+
+export const restorePasswordCheck = async (email: string, code: string) => {
+  await publicApi.post("/auth/password/restore/check", {
+    email,
+    code,
+  });
+};
+
+export const restorePassword = async (email: string, password: string) => {
+  await publicApi.patch("/auth/password/restore", { email, password });
+};

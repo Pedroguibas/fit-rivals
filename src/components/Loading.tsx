@@ -96,6 +96,8 @@ const Loading = ({
           justifyContent: "center",
           alignItems: "center",
           gap: gap,
+          height: scale > 1 ? size * scale : size,
+          paddingVertical: 12,
         },
         style,
       ]}
