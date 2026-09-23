@@ -1,4 +1,4 @@
-import { createUser } from "@/api/users";
+import { createUser, emailExists, usernameExists } from "@/api/users";
 import GoogleButton from "@/components/GoogleButton";
 import Loading from "@/components/Loading";
 import Logo from "@/components/Logo";
@@ -67,25 +67,25 @@ const Signup = () => {
       return null;
     }
 
-    // criar rota email exists
-    // if (false) {
-    //   callToast({
-    //     variant: "danger",
-    //     title: "Erro ao criar conta",
-    //     message: "Email já cadastrado",
-    //   });
-    //   return null;
-    // }
+    const emailInUse = await emailExists(trimmed.email);
+    if (emailInUse) {
+      callToast({
+        variant: "danger",
+        title: "Erro ao criar conta",
+        message: "Email já cadastrado",
+      });
+      return null;
+    }
 
-    // criar rota username exists
-    // if (false) {
-    //   callToast({
-    //     variant: 'danger',
-    //     title: "Erro ao criar conta",
-    //     message: "Username já cadastrado",
-    //   });
-    //   return null
-    // }
+    const usernameInUse = await usernameExists(trimmed.username);
+    if (usernameInUse) {
+      callToast({
+        variant: "danger",
+        title: "Erro ao criar conta",
+        message: "Username já cadastrado",
+      });
+      return null;
+    }
 
     if (trimmed.password.length < 8) {
       callToast({
@@ -113,11 +113,11 @@ const Signup = () => {
   };
 
   const handleSubmit = async () => {
-    const validated = await validateData();
-    if (!validated) return;
-
     setLoading(true);
     try {
+      const validated = await validateData();
+      if (!validated) return;
+
       await createUser({
         name: validated.name,
         username: validated.username,

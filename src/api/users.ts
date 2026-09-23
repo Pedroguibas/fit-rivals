@@ -17,3 +17,17 @@ export const createUser = async (user: CreateUserRequest) => {
 
   return data;
 };
+
+export const emailExists = async (email: string): Promise<boolean> => {
+  const { data } = await publicApi.get(`/users/validation/email/${email}`);
+
+  return data;
+};
+
+export const usernameExists = async (username: string): Promise<boolean> => {
+  const { data } = await publicApi.get(
+    `/users/validation/username/${username}`,
+  );
+
+  return data;
+};
