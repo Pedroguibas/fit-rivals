@@ -1,5 +1,5 @@
 import { Eye, EyeOff, LucideIcon } from "lucide-react-native";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Pressable,
   StyleSheet,
@@ -7,16 +7,19 @@ import {
   TextInputProps,
   View,
 } from "react-native";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 import { ViewStyle } from "react-native/Libraries/StyleSheet/StyleSheetTypes";
 
-export interface InputProps extends Omit<
-  Omit<TextInputProps, "children">,
-  "style"
-> {
+export interface InputProps extends Omit<TextInputProps, "children" | "style"> {
   type?: "text" | "number" | "email" | "password";
   icon?: LucideIcon;
   style?: ViewStyle;
   fontSize?: number;
+  focusAnimationDuration?: number;
 }
 
 export default function Input({
@@ -25,19 +28,49 @@ export default function Input({
   style,
   fontSize = 16,
   onChangeText,
+  focusAnimationDuration = 300,
   ...props
 }: InputProps) {
-  const [focus, setFocus] = useState(false);
+  const containerRef = useRef<View | null>(null);
+  const [containerWidth, setContainerWidth] = useState(0);
   const [showingPassword, setShowingPassword] = useState(true);
-
   const handleChangeNumber = onChangeText
     ? (text: string) => {
         if (/^\d*$/.test(text)) onChangeText(text);
       }
     : () => {};
 
+  const focusWidth = useSharedValue(0);
+
+  useEffect(() => {
+    containerRef?.current?.measure((x, y, width, height, pageX, pageY) => {
+      setContainerWidth(width);
+    });
+  }, []);
+
+  const handleFocus = () => {
+    containerRef?.current?.measure((x, y, width, height, pageX, pageY) => {
+      focusWidth.value = withTiming(width, {
+        duration: focusAnimationDuration,
+      });
+      setContainerWidth(width);
+    });
+  };
+
+  const handleBlur = () => {
+    focusWidth.value = withTiming(0, {
+      duration: focusAnimationDuration,
+    });
+  };
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    width: focusWidth.value,
+    left: (containerWidth - focusWidth.value) / 2,
+  }));
+
   return (
-    <View style={[styles.container, focus ? styles.focus : styles.blur, style]}>
+    <View ref={containerRef} style={[styles.container, style]}>
+      <Animated.View style={[styles.focus, animatedStyle]} />
       {Icon && <Icon color="#CCCCCC" size={fontSize + 4} />}
       <TextInput
         secureTextEntry={type == "password" && showingPassword}
@@ -52,8 +85,8 @@ export default function Input({
               : "default"
         }
         autoCapitalize="none"
-        onFocus={() => setFocus(true)}
-        onBlur={() => setFocus(false)}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
         {...props}
       />
       {type == "password" && (
@@ -80,6 +113,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     width: "100%",
     alignItems: "center",
+    borderColor: "#CCCCCC",
   },
   input: {
     color: "#fff",
@@ -88,9 +122,9 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   focus: {
+    position: "absolute",
     borderColor: "#F03100",
-  },
-  blur: {
-    borderColor: "#CCCCCC",
+    bottom: -1,
+    borderBottomWidth: 1,
   },
 });
