@@ -20,8 +20,6 @@ const Login = () => {
     password: "",
   });
   const callToast = useToast();
-  let lastSubmitTryData: { user: string; password: string } | undefined =
-    undefined;
 
   const { login, loading } = useAuth();
 
@@ -33,10 +31,6 @@ const Login = () => {
   };
 
   const handleSubmit = async () => {
-    if (data == lastSubmitTryData) return;
-
-    lastSubmitTryData = data;
-
     if (data.user == "" || data.password == "") {
       callToast({
         variant: "danger",

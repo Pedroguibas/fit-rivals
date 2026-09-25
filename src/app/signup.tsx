@@ -22,6 +22,7 @@ const Signup = () => {
     password: "",
     confirm: "",
   });
+
   const [loading, setLoading] = useState(false);
   const callToast = useToast();
 
