@@ -81,6 +81,7 @@ const ConfirmCode = () => {
 
   const [loading, setLoading] = useState(false);
   const [resending, setResending] = useState(false);
+  const [lastCode, setLastCode] = useState<string | undefined>(undefined);
 
   const handleResend = async () => {
     setResending(true);

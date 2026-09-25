@@ -20,6 +20,7 @@ const RestorePasswordForm = () => {
     password: "",
     confirm: "",
   });
+
   const callToast = useToast();
   const [loading, setLoading] = useState(false);
 

@@ -32,6 +32,9 @@ const ToastContext = createContext<callToast | undefined>(undefined);
 export const ToastProvider = ({ children }: PropsWithChildren) => {
   const [queue, setQueue] = useState<toastOptions[]>([]);
   const [current, setCurrent] = useState<toastOptions | null>(null);
+  const [lastRequested, setLastRequested] = useState<
+    toastOptions | undefined
+  >();
 
   const translateY = useSharedValue(100);
   const opacity = useSharedValue(0);
@@ -65,6 +68,11 @@ export const ToastProvider = ({ children }: PropsWithChildren) => {
   };
 
   const callToast = (options: toastOptions) => {
+    if (options == lastRequested) return;
+
+    setLastRequested(options);
+    setTimeout(() => setLastRequested(undefined), 5000);
+
     setQueue((prev) => [...prev, options]);
   };
 
