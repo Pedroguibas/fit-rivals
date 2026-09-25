@@ -68,7 +68,13 @@ export const ToastProvider = ({ children }: PropsWithChildren) => {
   };
 
   const callToast = (options: toastOptions) => {
-    if (options == lastRequested) return;
+    if (
+      options.message == lastRequested?.message &&
+      options.title == lastRequested?.title &&
+      options.icon == lastRequested?.icon &&
+      options.variant == lastRequested?.variant
+    )
+      return;
 
     setLastRequested(options);
     setTimeout(() => setLastRequested(undefined), 5000);
