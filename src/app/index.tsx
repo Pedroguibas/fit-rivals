@@ -17,7 +17,7 @@ export default function HomeScreen() {
           source={require("@/assets/images/landing_bg.png")}
         />
       </View>
-      <Button onPress={() => router.replace("/login")} style={styles.button}>
+      <Button onPress={() => router.push("/login")} style={styles.button}>
         <ThemedText fontSize={18}>Get Started</ThemedText>
       </Button>
       <GoogleButton style={styles.button} />

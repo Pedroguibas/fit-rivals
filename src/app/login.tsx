@@ -85,10 +85,10 @@ const Login = () => {
             onChangeText={(text) => handleChange("password", text)}
           />
           <View style={styles.links}>
-            <ThemedLink replace href="/signup" fontSize={12}>
+            <ThemedLink push href="/signup" fontSize={12}>
               cadastre-se
             </ThemedLink>
-            <ThemedLink href="/restorePassword/sendEmail" fontSize={12}>
+            <ThemedLink push href="/restorePassword/sendEmail" fontSize={12}>
               esqueceu sua senha?
             </ThemedLink>
           </View>

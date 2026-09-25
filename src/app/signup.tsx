@@ -67,6 +67,7 @@ const Signup = () => {
       return null;
     }
 
+    setLoading(true);
     const emailInUse = await emailExists(trimmed.email);
     if (emailInUse) {
       callToast({
@@ -113,7 +114,6 @@ const Signup = () => {
   };
 
   const handleSubmit = async () => {
-    setLoading(true);
     try {
       const validated = await validateData();
       if (!validated) return;
@@ -152,6 +152,7 @@ const Signup = () => {
           onChangeText={(text) => handleChange("name", text)}
           icon={User}
           placeholder="Nome"
+          autoCapitalize="words"
         />
         <Input
           value={data.username}
@@ -181,7 +182,7 @@ const Signup = () => {
             type="password"
             placeholder="Confirme sua Senha"
           />
-          <ThemedLink replace href={"/login"} fontSize={12} style={styles.link}>
+          <ThemedLink push href={"/login"} fontSize={12} style={styles.link}>
             Entre com sua conta
           </ThemedLink>
         </View>
