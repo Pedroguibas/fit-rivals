@@ -1,12 +1,10 @@
 import Navbar, { PageType } from "@/components/Navbar";
 import ThemedSafeAreaView from "@/components/ui/Theme/ThemedSafeAreaView";
 import Colors from "@/constants/Colors";
-import { useToast } from "@/contexts/ToastContext";
 import { router, Stack } from "expo-router";
 import { Home, User, UserGroup, Users } from "lucide-react-native";
 
 const HomeLayout = () => {
-  const callToast = useToast();
   const pages: PageType[] = [
     {
       page: "Profile",
