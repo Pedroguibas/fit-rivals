@@ -127,7 +127,7 @@ const Signup = () => {
       });
 
       router.replace({
-        pathname: "/login",
+        pathname: "/auth/login",
         params: { email: validated.email },
       });
     } catch (e) {
@@ -183,7 +183,12 @@ const Signup = () => {
             type="password"
             placeholder="Confirme sua Senha"
           />
-          <ThemedLink push href={"/login"} fontSize={12} style={styles.link}>
+          <ThemedLink
+            push
+            href={"/auth/login"}
+            fontSize={12}
+            style={styles.link}
+          >
             Entre com sua conta
           </ThemedLink>
         </View>

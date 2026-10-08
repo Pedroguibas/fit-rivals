@@ -1,15 +1,16 @@
 import Button from "@/components/ui/Button";
-import ThemedSafeAreaView from "@/components/ui/Theme/ThemedSafeAreaView";
 import ThemedText from "@/components/ui/Theme/ThemedText";
 import { useAuth } from "@/contexts/AuthContext";
+import { View } from "react-native";
 
 const Home = () => {
   const { user, logout } = useAuth();
 
   return (
-    <ThemedSafeAreaView style={{ flex: 1, justifyContent: "center" }}>
+    <View style={{ flex: 1, justifyContent: "center" }}>
       <ThemedText>{user ? user.name : "não logado"}</ThemedText>
       <Button
+        style={{ width: "100%" }}
         onPress={async () => {
           await logout();
         }}
@@ -17,7 +18,7 @@ const Home = () => {
       >
         <ThemedText>logout</ThemedText>
       </Button>
-    </ThemedSafeAreaView>
+    </View>
   );
 };
 

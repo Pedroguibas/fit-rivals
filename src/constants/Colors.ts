@@ -3,9 +3,11 @@ const Colors = {
   danger: "#DC3545",
   success: "#008000",
   background: "#191919",
-  backgroundSecondary: "#3A3A3A",
+  backgroundSecondary: "#353535",
+  backgroundTertiary: "#535353",
   foreground: "#FFFFFF",
   foregroundSecondary: "#CCCCCC",
+  foregroundTertiary: "#AAAAAA",
 };
 
 export default Colors;
