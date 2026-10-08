@@ -43,16 +43,11 @@ const RootNav = () => {
       }}
     >
       <Stack.Protected guard={!!user}>
-        <Stack.Screen name="app" />
+        <Stack.Screen name="app/(home)" />
       </Stack.Protected>
 
       <Stack.Protected guard={!user}>
         <Stack.Screen name="index" />
-        <Stack.Screen name="restorePassword/confirmCode" />
-        <Stack.Screen name="restorePassword/sendEmail" />
-        <Stack.Screen name="restorePassword/restorePasswordForm" />
-        <Stack.Screen name="signup" />
-        <Stack.Screen name="login" />
       </Stack.Protected>
     </Stack>
   );

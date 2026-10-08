@@ -12,6 +12,9 @@ const ThemedSafeAreaView = ({ style, ...props }: SafeAreaViewProps) => {
           backgroundColor: Colors.background,
           paddingHorizontal: 16,
           paddingVertical: 8,
+          position: "relative",
+          flex: 1,
+          overflow: "visible",
         },
         style,
       ]}

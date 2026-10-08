@@ -22,7 +22,7 @@ const GoogleButton = ({
         style={styles.icon}
         source={require("@/assets/icons/google.png")}
       />
-      {!iconOnly && <Text style={{ fontSize: 18 }}>Join with Google</Text>}
+      {!iconOnly && <Text style={{ fontSize: 18 }}>Entrar com Google</Text>}
     </Button>
   );
 };

@@ -47,13 +47,22 @@ const Login = () => {
       await login(data.user.trim(), data.password.trim());
 
       router.replace("/app");
-    } catch {
-      callToast({
-        variant: "danger",
-        icon: CircleX,
-        title: "Erro no Login",
-        message: "Credenciais inválidas.",
-      });
+    } catch (e: any) {
+      if (e.status == 401) {
+        callToast({
+          variant: "danger",
+          icon: CircleX,
+          title: "Erro no Login",
+          message: "Credenciais inválidas.",
+        });
+      } else {
+        callToast({
+          variant: "danger",
+          icon: CircleX,
+          title: "Erro no Login",
+          message: "Erro ao logar, tente novmente mais tarde",
+        });
+      }
     }
   };
 
@@ -79,10 +88,14 @@ const Login = () => {
             onChangeText={(text) => handleChange("password", text)}
           />
           <View style={styles.links}>
-            <ThemedLink push href="/signup" fontSize={12}>
+            <ThemedLink push href="/auth/signup" fontSize={12}>
               cadastre-se
             </ThemedLink>
-            <ThemedLink push href="/restorePassword/sendEmail" fontSize={12}>
+            <ThemedLink
+              push
+              href="/auth/restorePassword/sendEmail"
+              fontSize={12}
+            >
               esqueceu sua senha?
             </ThemedLink>
           </View>

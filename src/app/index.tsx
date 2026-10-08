@@ -3,12 +3,10 @@ import Button from "@/components/ui/Button";
 import ThemedSafeAreaView from "@/components/ui/Theme/ThemedSafeAreaView";
 import ThemedText from "@/components/ui/Theme/ThemedText";
 import Colors from "@/constants/Colors";
-import { useRouter } from "expo-router";
+import { router } from "expo-router";
 import { Image, StyleSheet, View } from "react-native";
 
 export default function HomeScreen() {
-  const router = useRouter();
-
   return (
     <ThemedSafeAreaView style={styles.container}>
       <View style={styles.backgroundImageContainer}>
@@ -17,8 +15,8 @@ export default function HomeScreen() {
           source={require("@/assets/images/landing_bg.png")}
         />
       </View>
-      <Button onPress={() => router.push("/login")} style={styles.button}>
-        <ThemedText fontSize={18}>Get Started</ThemedText>
+      <Button onPress={() => router.push("/auth/login")} style={styles.button}>
+        <ThemedText fontSize={18}>Começar Já</ThemedText>
       </Button>
       <GoogleButton style={styles.button} />
     </ThemedSafeAreaView>

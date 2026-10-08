@@ -16,7 +16,7 @@ import Animated, {
 
 const BUTTON_EFFECT_RADIUS = 10;
 export interface ButtonProps extends Omit<PressableProps, "children"> {
-  variant?: "primary" | "danger" | "success" | "neutral";
+  variant?: "primary" | "danger" | "success" | "neutral" | "action";
   children?: ReactNode;
   clickAnimationDuration?: number;
 }
@@ -106,6 +106,7 @@ export default function Button({
 
 const styles = StyleSheet.create({
   button: {
+    alignSelf: "flex-start",
     paddingVertical: 4,
     paddingHorizontal: 8,
     borderRadius: 8,
@@ -136,5 +137,14 @@ const styles = StyleSheet.create({
   },
   neutral: {
     backgroundColor: Colors.backgroundSecondary,
+  },
+  action: {
+    backgroundColor: Colors.backgroundSecondary,
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+    borderRadius: 1000,
+    aspectRatio: 1,
+    flexGrow: 0,
+    flex: 0,
   },
 });
