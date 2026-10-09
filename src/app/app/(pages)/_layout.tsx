@@ -1,20 +1,12 @@
 import ThemedSafeAreaView from "@/components/ui/Theme/ThemedSafeAreaView";
-import Colors from "@/constants/Colors";
+import ThemedStack from "@/components/ui/Theme/ThemedStack";
 import { AppbarProvider } from "@/contexts/AppbarContext";
-import { Stack } from "expo-router";
 
 const AppLayout = () => {
   return (
-    <ThemedSafeAreaView style={{ paddingVertical: 0, paddingHorizontal: 0 }}>
+    <ThemedSafeAreaView>
       <AppbarProvider>
-        <Stack
-          screenOptions={{
-            headerShown: false,
-            contentStyle: {
-              backgroundColor: Colors.background,
-            },
-          }}
-        />
+        <ThemedStack />
       </AppbarProvider>
     </ThemedSafeAreaView>
   );

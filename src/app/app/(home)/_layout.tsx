@@ -1,7 +1,7 @@
 import Navbar, { PageType } from "@/components/Navbar";
 import ThemedSafeAreaView from "@/components/ui/Theme/ThemedSafeAreaView";
-import Colors from "@/constants/Colors";
-import { router, Stack } from "expo-router";
+import ThemedStack from "@/components/ui/Theme/ThemedStack";
+import { router } from "expo-router";
 import { Home, User, UserGroup, Users } from "lucide-react-native";
 
 const HomeLayout = () => {
@@ -41,14 +41,7 @@ const HomeLayout = () => {
   ];
   return (
     <ThemedSafeAreaView>
-      <Stack
-        screenOptions={{
-          headerShown: false,
-          contentStyle: {
-            backgroundColor: Colors.background,
-          },
-        }}
-      />
+      <ThemedStack />
       <Navbar pages={pages} />
     </ThemedSafeAreaView>
   );

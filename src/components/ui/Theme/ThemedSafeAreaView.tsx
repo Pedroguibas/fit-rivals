@@ -1,4 +1,3 @@
-import Colors from "@/constants/Colors";
 import {
   SafeAreaView,
   SafeAreaViewProps,
@@ -9,9 +8,6 @@ const ThemedSafeAreaView = ({ style, ...props }: SafeAreaViewProps) => {
     <SafeAreaView
       style={[
         {
-          backgroundColor: Colors.background,
-          paddingHorizontal: 16,
-          paddingVertical: 8,
           position: "relative",
           flex: 1,
           overflow: "visible",
