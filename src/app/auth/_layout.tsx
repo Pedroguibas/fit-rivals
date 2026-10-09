@@ -1,17 +1,7 @@
-import Colors from "@/constants/Colors";
-import { Stack } from "expo-router";
+import ThemedStack from "@/components/ui/Theme/ThemedStack";
 
 const AuthLayout = () => {
-  return (
-    <Stack
-      screenOptions={{
-        headerShown: false,
-        contentStyle: {
-          backgroundColor: Colors.background,
-        },
-      }}
-    />
-  );
+  return <ThemedStack />;
 };
 
 export default AuthLayout;

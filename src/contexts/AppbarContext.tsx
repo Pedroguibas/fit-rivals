@@ -28,7 +28,7 @@ export const AppbarProvider = ({ children }: PropsWithChildren) => {
 
   return (
     <AppbarContext.Provider value={appendSettings}>
-      <View style={{ flex: 1, paddingVertical: 8, paddingHorizontal: 16 }}>
+      <View style={{ flex: 1 }}>
         <Appbar {...appbarProps} />
         {children}
       </View>

@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-end",
     alignItems: "center",
+    padding: 16,
     gap: 8,
   },
   backgroundImageContainer: {
