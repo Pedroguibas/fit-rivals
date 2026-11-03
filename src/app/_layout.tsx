@@ -1,6 +1,7 @@
 import Colors from "@/constants/Colors";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { ToastProvider } from "@/contexts/ToastContext";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SplashScreen, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
@@ -9,18 +10,22 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 
 SplashScreen.preventAutoHideAsync();
 
+const queryClient = new QueryClient();
+
 const RootLayout = () => {
   return (
-    <AuthProvider>
-      <KeyboardProvider statusBarTranslucent navigationBarTranslucent>
-        <ToastProvider>
-          <SafeAreaProvider>
-            <StatusBar style="light" />
-            <RootNav />
-          </SafeAreaProvider>
-        </ToastProvider>
-      </KeyboardProvider>
-    </AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <KeyboardProvider statusBarTranslucent navigationBarTranslucent>
+          <ToastProvider>
+            <SafeAreaProvider>
+              <StatusBar style="light" />
+              <RootNav />
+            </SafeAreaProvider>
+          </ToastProvider>
+        </KeyboardProvider>
+      </AuthProvider>
+    </QueryClientProvider>
   );
 };
 

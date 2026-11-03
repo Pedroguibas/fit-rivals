@@ -8,8 +8,10 @@ import ThemedText from "@/components/ui/Theme/ThemedText";
 import Colors from "@/constants/Colors";
 import { useToast } from "@/contexts/ToastContext";
 import { router, useLocalSearchParams } from "expo-router";
-import { RefObject, useRef, useState } from "react";
+import { ComponentRef, RefObject, useRef, useState } from "react";
 import { Pressable, StyleSheet, TextInput, View } from "react-native";
+
+type TextInputRef = ComponentRef<typeof TextInput>;
 
 const CodeInput = ({
   value,
@@ -20,9 +22,9 @@ const CodeInput = ({
 }: {
   value: string;
   changeText: (text: string) => void;
-  prev?: RefObject<TextInput | null>;
-  next?: RefObject<TextInput | null>;
-  ref: RefObject<TextInput | null>;
+  prev?: RefObject<TextInputRef | null>;
+  next?: RefObject<TextInputRef | null>;
+  ref: RefObject<TextInputRef | null>;
 }) => {
   const [focus, setFocus] = useState(false);
   const handleChange = (text: string) => {
@@ -72,16 +74,15 @@ const ConfirmCode = () => {
     n5: "",
     n6: "",
   });
-  const ref1 = useRef<TextInput>(null);
-  const ref2 = useRef<TextInput>(null);
-  const ref3 = useRef<TextInput>(null);
-  const ref4 = useRef<TextInput>(null);
-  const ref5 = useRef<TextInput>(null);
-  const ref6 = useRef<TextInput>(null);
+  const ref1 = useRef<TextInputRef>(null);
+  const ref2 = useRef<TextInputRef>(null);
+  const ref3 = useRef<TextInputRef>(null);
+  const ref4 = useRef<TextInputRef>(null);
+  const ref5 = useRef<TextInputRef>(null);
+  const ref6 = useRef<TextInputRef>(null);
 
   const [loading, setLoading] = useState(false);
   const [resending, setResending] = useState(false);
-  const [lastCode, setLastCode] = useState<string | undefined>(undefined);
 
   const handleResend = async () => {
     setResending(true);
@@ -121,7 +122,7 @@ const ConfirmCode = () => {
       await restorePasswordCheck(email, code);
 
       router.replace({
-        pathname: "/restorePassword/restorePasswordForm",
+        pathname: "/auth/restorePassword/restorePasswordForm",
         params: { email },
       });
     } catch (e) {

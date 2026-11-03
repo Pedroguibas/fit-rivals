@@ -2,7 +2,7 @@ import Colors from "@/constants/Colors";
 import { Text, type TextProps } from "react-native";
 
 export interface ThemedTextProps extends TextProps {
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "tertiary";
   fontSize?: number;
 }
 
@@ -19,7 +19,9 @@ const ThemedText = ({
           color:
             variant == "primary"
               ? Colors.foreground
-              : Colors.foregroundSecondary,
+              : variant == "secondary"
+                ? Colors.foregroundSecondary
+                : Colors.foregroundTertiary,
           fontSize: fontSize,
         },
         style,

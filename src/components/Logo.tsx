@@ -7,7 +7,7 @@ interface LogoProps extends Omit<ImageProps, "source"> {
 const Logo = ({ loginStyled = false, style, ...props }: LogoProps) => {
   return (
     <Image
-      style={styles.logo}
+      style={[styles.logo, style]}
       {...props}
       source={require("@/assets/images/logo.png")}
     />

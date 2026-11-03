@@ -2,18 +2,18 @@ import Colors from "@/constants/Colors";
 import { Href, router, usePathname } from "expo-router";
 import { LucideIcon, Plus } from "lucide-react-native";
 import { useEffect, useState } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Image, Pressable, StyleSheet, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import Button from "./ui/Button";
+import Button from "./Button";
 
 export type PageType = {
   page: string;
   route: Href;
-  icon: LucideIcon;
+  icon: LucideIcon | string;
   actionButtonIcon: LucideIcon | undefined;
   actionButtonAction: undefined | (() => void);
 };
@@ -89,7 +89,21 @@ const NavButton = ({ active, page }: { active: boolean; page: PageType }) => {
       onPress={() => router.replace(page.route)}
       style={styles.button}
     >
-      <page.icon color={Colors.foregroundSecondary} />
+      {typeof page.icon == "string" ? (
+        <Image
+          src={page.icon}
+          height={12}
+          width={12}
+          style={{
+            aspectRatio: 1,
+            objectFit: "cover",
+            height: "100%",
+            borderRadius: 1000,
+          }}
+        />
+      ) : (
+        <page.icon color={Colors.foregroundSecondary} />
+      )}
       <Animated.View style={[styles.active, animatedStyle]} />
     </Pressable>
   );

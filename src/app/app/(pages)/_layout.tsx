@@ -2,7 +2,7 @@ import ThemedSafeAreaView from "@/components/ui/Theme/ThemedSafeAreaView";
 import ThemedStack from "@/components/ui/Theme/ThemedStack";
 import { AppbarProvider } from "@/contexts/AppbarContext";
 
-const AppLayout = () => {
+const PagesLayout = () => {
   return (
     <ThemedSafeAreaView>
       <AppbarProvider>
@@ -12,4 +12,4 @@ const AppLayout = () => {
   );
 };
 
-export default AppLayout;
+export default PagesLayout;
