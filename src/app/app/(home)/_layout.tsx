@@ -1,15 +1,19 @@
-import Navbar, { PageType } from "@/components/Navbar";
+import HomeAppbar from "@/components/HomeAppbar";
+import Navbar, { PageType } from "@/components/ui/Navbar";
 import ThemedSafeAreaView from "@/components/ui/Theme/ThemedSafeAreaView";
-import ThemedStack from "@/components/ui/Theme/ThemedStack";
-import { router } from "expo-router";
+import ThemedTabs from "@/components/ui/Theme/ThemedTabs";
+import { useAuth } from "@/contexts/AuthContext";
+import { router, Tabs } from "expo-router";
 import { Home, User, UserGroup, Users } from "lucide-react-native";
 
 const HomeLayout = () => {
+  const { user } = useAuth();
+
   const pages: PageType[] = [
     {
       page: "Profile",
       route: "/app/profile",
-      icon: User,
+      icon: user?.picture ? user.picture : User,
       actionButtonIcon: undefined,
       actionButtonAction: () => {
         router.push("/app/add_post");
@@ -41,7 +45,13 @@ const HomeLayout = () => {
   ];
   return (
     <ThemedSafeAreaView>
-      <ThemedStack />
+      <HomeAppbar />
+      <ThemedTabs>
+        <Tabs.Screen name="profile" />
+        <Tabs.Screen name="index" />
+        <Tabs.Screen name="social" />
+        <Tabs.Screen name="groups" />
+      </ThemedTabs>
       <Navbar pages={pages} />
     </ThemedSafeAreaView>
   );

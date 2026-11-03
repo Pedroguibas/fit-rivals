@@ -2,6 +2,7 @@ import * as auth from "@/api/auth";
 import { getSelf } from "@/api/users";
 import { getToken, resetTokens, storeToken } from "@/helpers/tokens";
 import { User } from "@/types/User";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   createContext,
   PropsWithChildren,
@@ -25,6 +26,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
   const [initRefreshing, setInitRefreshing] = useState(true);
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     const firstRefresh = async () => {
@@ -85,6 +87,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     } finally {
       await resetTokens();
       setUser(null);
+      queryClient.clear();
       setLoading(false);
     }
   };

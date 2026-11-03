@@ -42,10 +42,6 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     height: "100%",
   },
-  chipContainer: {
-    flexDirection: "row",
-    gap: 4,
-  },
   button: {
     width: "100%",
     paddingVertical: 10,

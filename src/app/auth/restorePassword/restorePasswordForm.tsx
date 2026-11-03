@@ -49,7 +49,7 @@ const RestorePasswordForm = () => {
     try {
       await restorePassword(email, data.password);
 
-      router.replace({ pathname: "/login", params: { email } });
+      router.replace({ pathname: "/auth/login", params: { email } });
     } catch {
       callToast({
         variant: "danger",
@@ -87,7 +87,7 @@ const RestorePasswordForm = () => {
         <Button style={styles.button} onPress={handleSubmit} disabled={loading}>
           {loading ? <Loading /> : <ThemedText>Confirmar</ThemedText>}
         </Button>
-        <ThemedLink href="/login" fontSize={12}>
+        <ThemedLink href="/auth/login" fontSize={12}>
           cancelar
         </ThemedLink>
       </View>

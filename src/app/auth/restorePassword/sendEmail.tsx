@@ -33,7 +33,7 @@ const RestorePassword = () => {
       await restorePasswordRequest(trimmed);
 
       router.push({
-        pathname: "/restorePassword/confirmCode",
+        pathname: "/auth/restorePassword/confirmCode",
         params: { email: trimmed },
       });
     } catch (e) {
