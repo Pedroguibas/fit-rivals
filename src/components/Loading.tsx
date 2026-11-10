@@ -97,7 +97,7 @@ const Loading = ({
           alignItems: "center",
           gap: gap,
           height: scale > 1 ? size * scale : size,
-          paddingVertical: 11,
+          padding: scale > 1 ? size * scale : scale,
         },
         style,
       ]}

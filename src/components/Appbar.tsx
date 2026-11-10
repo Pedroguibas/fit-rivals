@@ -1,5 +1,5 @@
 import Colors from "@/constants/Colors";
-import { router, usePathname } from "expo-router";
+import { Href, router, usePathname } from "expo-router";
 import { ArrowLeft } from "lucide-react-native";
 import { ReactNode } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
@@ -9,16 +9,26 @@ export type AppbarProps = {
   hideBackButton?: boolean;
   title?: string;
   actions?: ReactNode;
+  dismissTo?: Href;
 };
 
-const Appbar = ({ hideBackButton, title, actions }: AppbarProps) => {
+const Appbar = ({ hideBackButton, title, actions, dismissTo }: AppbarProps) => {
   const pathname = usePathname();
+
+  const handleBack = () => {
+    if (dismissTo) {
+      router.dismissTo(dismissTo);
+      return;
+    }
+
+    router.back();
+  };
 
   return (
     <View style={styles.appbar}>
       <View style={{ flexDirection: "row", gap: 12 }}>
         {hideBackButton || (
-          <Pressable onPress={router.back}>
+          <Pressable onPress={handleBack}>
             <ArrowLeft color={Colors.foregroundSecondary} />
           </Pressable>
         )}

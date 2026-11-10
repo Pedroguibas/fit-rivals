@@ -1,7 +1,7 @@
 import * as auth from "@/api/auth";
 import { getSelf } from "@/api/users";
 import { getToken, resetTokens, storeToken } from "@/helpers/tokens";
-import { User } from "@/types/User";
+import { Self } from "@/types/Self";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   createContext,
@@ -12,7 +12,7 @@ import {
 } from "react";
 
 export type AuthContextType = {
-  user: User | null;
+  user: Self | null;
   refresh: () => Promise<void>;
   login: (user: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
@@ -23,7 +23,7 @@ export type AuthContextType = {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<Self | null>(null);
   const [loading, setLoading] = useState(false);
   const [initRefreshing, setInitRefreshing] = useState(true);
   const queryClient = useQueryClient();

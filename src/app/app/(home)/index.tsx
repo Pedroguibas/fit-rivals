@@ -1,24 +1,13 @@
 import ActivityPost from "@/components/ActivityPost";
-import Loading from "@/components/Loading";
+import LoadingScreen from "@/components/LoadingScreen";
 import ThemedText from "@/components/ui/Theme/ThemedText";
-import { useFeed } from "@/hooks/useFeed";
+import useFeed from "@/hooks/useFeed";
 import { ScrollView, View } from "react-native";
 
 const Home = () => {
   const { data: feed, isLoading } = useFeed();
 
-  if (isLoading)
-    return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Loading />
-      </View>
-    );
+  if (isLoading) return <LoadingScreen />;
 
   if (!feed || feed.length == 0)
     return (

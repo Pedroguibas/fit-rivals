@@ -1,10 +1,12 @@
 import { getFeed } from "@/api/activities";
-import { useQuery } from "@tanstack/react-query";
+import { queryOptions, useQuery } from "@tanstack/react-query";
 
-export const useFeed = () => {
-  return useQuery({
-    queryKey: ["feed"],
-    queryFn: getFeed,
-    staleTime: 1000 * 60 * 3,
-  });
-};
+export const feedQueryOptions = queryOptions({
+  queryKey: ["feed"],
+  queryFn: getFeed,
+  staleTime: 1000 * 60 * 3,
+});
+
+const useFeed = () => useQuery(feedQueryOptions);
+
+export default useFeed;
