@@ -4,7 +4,7 @@ import ThemedSafeAreaView from "@/components/ui/Theme/ThemedSafeAreaView";
 import ThemedTabs from "@/components/ui/Theme/ThemedTabs";
 import { useAuth } from "@/contexts/AuthContext";
 import { router, Tabs } from "expo-router";
-import { Home, User, UserGroup, Users } from "lucide-react-native";
+import { Home, User, UserGroup, UserPlus, Users } from "lucide-react-native";
 
 const HomeLayout = () => {
   const { user } = useAuth();
@@ -31,16 +31,18 @@ const HomeLayout = () => {
       route: "/app",
       icon: Home,
       actionButtonIcon: undefined,
-      actionButtonAction: () => {
-        router.push("/app/add_post");
-      },
+      actionButtonAction: () => router.push("/app/add_post"),
     },
     {
       page: "Social",
       route: "/app/social",
       icon: Users,
-      actionButtonIcon: undefined,
-      actionButtonAction: undefined,
+      actionButtonIcon: UserPlus,
+      actionButtonAction: () =>
+        router.push({
+          pathname: "/app/add_friend",
+          params: { from: "/app/social" },
+        }),
     },
   ];
   return (

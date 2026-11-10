@@ -1,8 +1,8 @@
 import { CreateUserRequest } from "@/types/requests/CreateUserRequest";
-import { User } from "@/types/User";
+import { Self } from "@/types/Self";
 import { privateApi, publicApi } from "@/utils/api";
 
-export const getSelf = async (): Promise<User> => {
+export const getSelf = async (): Promise<Self> => {
   const { data } = await privateApi.get("/users/self");
 
   if (!data) throw new Error();

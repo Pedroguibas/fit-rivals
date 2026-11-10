@@ -48,7 +48,7 @@ const RootNav = () => {
       }}
     >
       <Stack.Protected guard={!!user}>
-        <Stack.Screen name="app/(home)" />
+        <Stack.Screen name="app" />
       </Stack.Protected>
 
       <Stack.Protected guard={!user}>

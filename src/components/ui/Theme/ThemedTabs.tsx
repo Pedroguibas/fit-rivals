@@ -8,6 +8,7 @@ const ThemedTabs = ({
 }: ComponentProps<typeof Tabs>) => {
   return (
     <Tabs
+      backBehavior="history"
       screenOptions={(navProps) => {
         const custom =
           typeof screenOptions == "function"
