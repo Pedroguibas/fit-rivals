@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
   form: {
     width: "100%",
     gap: 24,
-    paddingHorizontal: 16,
+    paddingHorizontal: 24,
   },
   link: {
     paddingTop: 4,

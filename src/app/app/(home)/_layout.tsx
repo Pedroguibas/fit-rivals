@@ -16,7 +16,7 @@ const HomeLayout = () => {
       icon: user?.picture ? user.picture : User,
       actionButtonIcon: undefined,
       actionButtonAction: () => {
-        router.push("/app/add_post");
+        router.push("/app/addPost");
       },
     },
     {
@@ -31,7 +31,7 @@ const HomeLayout = () => {
       route: "/app",
       icon: Home,
       actionButtonIcon: undefined,
-      actionButtonAction: () => router.push("/app/add_post"),
+      actionButtonAction: () => router.push("/app/addPost"),
     },
     {
       page: "Social",
