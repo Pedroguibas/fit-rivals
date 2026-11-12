@@ -12,8 +12,6 @@ const ThemedStack = ({
         headerShown: false,
         contentStyle: {
           backgroundColor: Colors.background,
-          paddingVertical: 8,
-          paddingHorizontal: 16,
         },
         ...screenOptions,
       }}

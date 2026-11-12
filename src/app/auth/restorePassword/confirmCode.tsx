@@ -226,6 +226,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     paddingVertical: 80,
+    paddingHorizontal: 16,
     gap: 32,
   },
   inputsContainer: {

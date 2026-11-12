@@ -89,7 +89,13 @@ const ActivityPost = ({ activity }: ActivityPostProps) => {
           <View style={styles.userPictureContainer}>
             {activity.author.picture ? (
               <Image
-                source={{ uri: activity.author.picture }}
+                source={{
+                  uri:
+                    activity.author.picture.includes("https://") ||
+                    activity.author.picture.includes("http://")
+                      ? activity.author.picture
+                      : `${process.env.EXPO_PUBLIC_CLOUDFLARE_R2_BASE_URL}/${activity.author.picture}`,
+                }}
                 style={styles.userPicture}
               />
             ) : (
@@ -108,7 +114,16 @@ const ActivityPost = ({ activity }: ActivityPostProps) => {
         </Pressable>
       </View>
       <View style={styles.postPictureContainer}>
-        <Image source={{ uri: activity.picture }} style={styles.postPicture} />
+        <Image
+          source={{
+            uri:
+              activity.picture.includes("https://") ||
+              activity.picture.includes("http://")
+                ? activity.picture
+                : `${process.env.EXPO_PUBLIC_CLOUDFLARE_R2_BASE_URL}/${activity.picture}`,
+          }}
+          style={styles.postPicture}
+        />
       </View>
       <ActivityPostActions
         activityId={activity.id}

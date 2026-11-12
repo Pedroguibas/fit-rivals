@@ -1,7 +1,7 @@
 export type ActivityType = {
-  id: string;
+  id: number;
   name: string;
-  picture: string;
+  picture: string | null;
   discription: string;
   rewardPoints: number;
 };
