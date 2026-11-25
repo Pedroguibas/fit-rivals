@@ -5,7 +5,7 @@ import Colors from "@/constants/Colors";
 import { useAppbar } from "@/contexts/AppbarContext";
 import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
 import { ImageManipulator, SaveFormat } from "expo-image-manipulator";
-import { router, usePathname } from "expo-router";
+import { router, useLocalSearchParams, usePathname } from "expo-router";
 import { RefreshCcw } from "lucide-react-native";
 import { useRef, useState } from "react";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
@@ -17,7 +17,12 @@ const TakePostPic = () => {
   const [cropping, setCropping] = useState(false);
   const setAppbar = useAppbar();
   const pathname = usePathname();
-  setAppbar(pathname, { title: "Postar", dismissTo: "/app" });
+  const { groupId } = useLocalSearchParams();
+  setAppbar(pathname, {
+    title: "Postar",
+    dismissTo: groupId ? "/app/group" : "/app",
+    dismissParams: { groupId },
+  });
   const [facing, setFacing] = useState<CameraType>("back");
   const [permission, requestPermission] = useCameraPermissions();
 
@@ -76,7 +81,7 @@ const TakePostPic = () => {
     setPic(null);
     router.push({
       pathname: "/app/addPost/finish",
-      params: { pic: aux ? encodeURIComponent(aux) : undefined },
+      params: { pic: aux ? encodeURIComponent(aux) : undefined, groupId },
     });
   };
 

@@ -1,5 +1,5 @@
 import { ActivityType } from "./ActivityType";
-import { Group } from "./Group";
+import { GroupData } from "./GroupData";
 import { User } from "./User";
 
 export type Activity = {
@@ -9,7 +9,7 @@ export type Activity = {
   createdAt: string;
   type: ActivityType;
   author: User;
-  group: Group | null;
+  group: GroupData | null;
   participants: User[];
   reaction: "VALID" | "INVALID" | "UNSURE" | null;
 };

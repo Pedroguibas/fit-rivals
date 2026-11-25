@@ -2,6 +2,7 @@ import { activityTypesQueryOptions } from "@/hooks/useActivityTypes";
 import { feedQueryOptions } from "@/hooks/useFeed";
 import { friendRequestsQueryOptions } from "@/hooks/useFriendRequests";
 import { friendsQueryOptions } from "@/hooks/useFriends";
+import { groupsQueryOptions } from "@/hooks/useGroups";
 import { useQueryClient } from "@tanstack/react-query";
 import { Slot } from "expo-router";
 import { useEffect } from "react";
@@ -16,6 +17,7 @@ const AppLayout = () => {
     queryClient.query(friendsQueryOptions).catch(noop);
     queryClient.query(friendRequestsQueryOptions).catch(noop);
     queryClient.query(activityTypesQueryOptions).catch(noop);
+    queryClient.query(groupsQueryOptions).catch(noop);
   }, [queryClient]);
 
   return <Slot />;

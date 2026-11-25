@@ -23,8 +23,8 @@ const HomeLayout = () => {
       page: "Groups",
       route: "/app/groups",
       icon: UserGroup,
-      actionButtonIcon: undefined,
-      actionButtonAction: undefined,
+      actionButtonIcon: UserPlus,
+      actionButtonAction: () => router.push("/app/addGroup"),
     },
     {
       page: "Home",

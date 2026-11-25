@@ -1,8 +1,14 @@
 import Colors from "@/constants/Colors";
-import { Href, router, usePathname } from "expo-router";
+import {
+  ExternalPathString,
+  Href,
+  router,
+  UnknownInputParams,
+  usePathname,
+} from "expo-router";
 import { ArrowLeft } from "lucide-react-native";
 import { ReactNode } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import ThemedText from "./ui/Theme/ThemedText";
 
 export type AppbarProps = {
@@ -10,14 +16,26 @@ export type AppbarProps = {
   title?: string;
   actions?: ReactNode;
   dismissTo?: Href;
+  dismissParams?: UnknownInputParams;
+  onPress?: () => void;
 };
 
-const Appbar = ({ hideBackButton, title, actions, dismissTo }: AppbarProps) => {
+const Appbar = ({
+  hideBackButton,
+  title,
+  actions,
+  dismissTo,
+  dismissParams,
+  onPress = () => {},
+}: AppbarProps) => {
   const pathname = usePathname();
 
   const handleBack = () => {
     if (dismissTo) {
-      router.dismissTo(dismissTo);
+      router.dismissTo({
+        pathname: dismissTo as ExternalPathString,
+        params: dismissParams,
+      });
       return;
     }
 
@@ -25,17 +43,17 @@ const Appbar = ({ hideBackButton, title, actions, dismissTo }: AppbarProps) => {
   };
 
   return (
-    <View style={styles.appbar}>
+    <TouchableOpacity onPress={onPress} style={styles.appbar}>
       <View style={{ flexDirection: "row", gap: 12 }}>
         {hideBackButton || (
-          <Pressable onPress={handleBack}>
+          <TouchableOpacity style={{ borderRadius: 1000 }} onPress={handleBack}>
             <ArrowLeft color={Colors.foregroundSecondary} />
-          </Pressable>
+          </TouchableOpacity>
         )}
         <ThemedText fontSize={20}>{title ? title : pathname}</ThemedText>
       </View>
       {actions}
-    </View>
+    </TouchableOpacity>
   );
 };
 

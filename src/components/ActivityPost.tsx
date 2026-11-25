@@ -1,9 +1,10 @@
 import { reactToActivity } from "@/api/activities";
 import Colors from "@/constants/Colors";
 import timeAgo from "@/helpers/timeAgo";
+import { toImageUrl } from "@/helpers/toImageUrl";
 import { Activity } from "@/types/Activity";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Check, EllipsisVertical, Minus, User, X } from "lucide-react-native";
+import { Check, EllipsisVertical, Minus, X } from "lucide-react-native";
 import { useState } from "react";
 import { Image, Pressable, StyleSheet, View } from "react-native";
 import ThemedText from "./ui/Theme/ThemedText";
@@ -87,20 +88,16 @@ const ActivityPost = ({ activity }: ActivityPostProps) => {
       <View style={styles.header}>
         <View style={styles.userHeader}>
           <View style={styles.userPictureContainer}>
-            {activity.author.picture ? (
-              <Image
-                source={{
-                  uri:
-                    activity.author.picture.includes("https://") ||
-                    activity.author.picture.includes("http://")
-                      ? activity.author.picture
-                      : `${process.env.EXPO_PUBLIC_CLOUDFLARE_R2_BASE_URL}/${activity.author.picture}`,
-                }}
-                style={styles.userPicture}
-              />
-            ) : (
-              <User color={Colors.primaryDarker} />
-            )}
+            <Image
+              source={
+                activity.author.picture
+                  ? {
+                      uri: toImageUrl(activity.author.picture),
+                    }
+                  : require("@/assets/images/user_pic.png")
+              }
+              style={styles.userPicture}
+            />
           </View>
           <View>
             <ThemedText>{activity.author.name}</ThemedText>
@@ -116,11 +113,7 @@ const ActivityPost = ({ activity }: ActivityPostProps) => {
       <View style={styles.postPictureContainer}>
         <Image
           source={{
-            uri:
-              activity.picture.includes("https://") ||
-              activity.picture.includes("http://")
-                ? activity.picture
-                : `${process.env.EXPO_PUBLIC_CLOUDFLARE_R2_BASE_URL}/${activity.picture}`,
+            uri: toImageUrl(activity.picture),
           }}
           style={styles.postPicture}
         />
