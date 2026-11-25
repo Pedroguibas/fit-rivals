@@ -1,3 +1,4 @@
+import { toImageUrl } from "@/helpers/toImageUrl";
 import { User } from "@/types/User";
 import { Image, View } from "react-native";
 import ThemedText from "./ui/Theme/ThemedText";
@@ -14,7 +15,7 @@ const UserHeader = ({
   fontSize = 16,
 }: UserHeaderProps) => {
   const source = user.picture
-    ? { uri: user.picture }
+    ? { uri: toImageUrl(user.picture) }
     : require("@/assets/images/user_pic.png");
 
   return (

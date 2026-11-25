@@ -1,30 +1,37 @@
 import FriendListItem from "@/components/FriendListItem";
 import FriendRequestListItem from "@/components/FriendRequestListItem";
+import GroupInviteCard from "@/components/GroupInviteCard";
 import LoadingScreen from "@/components/LoadingScreen";
 import Chip from "@/components/ui/Chip";
 import ThemedText from "@/components/ui/Theme/ThemedText";
 import useFriendRequests from "@/hooks/useFriendRequests";
 import useFriends from "@/hooks/useFriends";
+import useGroupInvites from "@/hooks/useGroupInvites";
 import { useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 
 const PendingTab = () => {
-  const { data, isLoading } = useFriendRequests();
+  const { data: requests, isLoading: areRequestsLoading } = useFriendRequests();
+  const { data: invites, isLoading: areInvitesLoading } = useGroupInvites();
 
-  if (isLoading) return <LoadingScreen />;
+  if (areInvitesLoading || areRequestsLoading) return <LoadingScreen />;
 
-  if (!data || data.length == 0)
+  if (
+    (!requests || requests.length == 0) &&
+    (!invites || invites.length == 0)
+  ) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <ThemedText>Nada por aqui...</ThemedText>
       </View>
     );
+  }
 
   return (
-    <ScrollView>
-      {data.map((d) => (
-        <FriendRequestListItem key={d.id} request={d} />
-      ))}
+    <ScrollView contentContainerStyle={{ paddingBottom: 200 }}>
+      {invites && invites.map((i) => <GroupInviteCard key={i.id} invite={i} />)}
+      {requests &&
+        requests.map((r) => <FriendRequestListItem key={r.id} request={r} />)}
     </ScrollView>
   );
 };

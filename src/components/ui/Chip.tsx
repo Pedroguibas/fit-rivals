@@ -3,9 +3,16 @@ import { Pressable, PressableProps, StyleSheet, Text } from "react-native";
 export interface ChipProps extends Omit<PressableProps, "children"> {
   value: boolean;
   label: string;
+  fontSize?: number;
 }
 
-export default function Chip({ value, label, style, ...props }: ChipProps) {
+export default function Chip({
+  value,
+  label,
+  fontSize = 16,
+  style,
+  ...props
+}: ChipProps) {
   return (
     <Pressable
       style={(state) => [
@@ -15,7 +22,12 @@ export default function Chip({ value, label, style, ...props }: ChipProps) {
       ]}
       {...props}
     >
-      <Text style={value ? styles.activeText : styles.inactiveText}>
+      <Text
+        style={[
+          value ? styles.activeText : styles.inactiveText,
+          { fontSize: fontSize },
+        ]}
+      >
         {label}
       </Text>
     </Pressable>

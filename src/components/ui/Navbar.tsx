@@ -1,5 +1,11 @@
 import Colors from "@/constants/Colors";
-import { Href, router, usePathname } from "expo-router";
+import {
+  ExternalPathString,
+  Href,
+  router,
+  UnknownInputParams,
+  usePathname,
+} from "expo-router";
 import { LucideIcon, Plus } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import { Image, Pressable, StyleSheet, View } from "react-native";
@@ -13,6 +19,7 @@ import Button from "./Button";
 export type PageType = {
   page: string;
   route: Href;
+  params?: UnknownInputParams;
   icon: LucideIcon | string;
   actionButtonIcon: LucideIcon | undefined;
   actionButtonAction: undefined | (() => void);
@@ -20,9 +27,10 @@ export type PageType = {
 
 export type NavbarProps = {
   pages: PageType[];
+  push?: boolean;
 };
 
-const Navbar = ({ pages }: NavbarProps) => {
+const Navbar = ({ pages, push = false }: NavbarProps) => {
   const pathname = usePathname();
 
   const [current, setCurrent] = useState(
@@ -38,7 +46,12 @@ const Navbar = ({ pages }: NavbarProps) => {
       <View style={styles.navbar}>
         <View style={styles.nav}>
           {pages.map((p, idx) => (
-            <NavButton page={p} key={idx} active={p.route == pathname} />
+            <NavButton
+              page={p}
+              key={idx}
+              active={p.route == pathname}
+              push={push}
+            />
           ))}
         </View>
         <Button
@@ -59,7 +72,15 @@ const Navbar = ({ pages }: NavbarProps) => {
 
 const BUTTON_ANIMATION_DURATION = 200;
 
-const NavButton = ({ active, page }: { active: boolean; page: PageType }) => {
+const NavButton = ({
+  active,
+  page,
+  push,
+}: {
+  active: boolean;
+  page: PageType;
+  push: boolean;
+}) => {
   const opacity = useSharedValue(0);
   const scale = useSharedValue(0.3);
 
@@ -86,7 +107,19 @@ const NavButton = ({ active, page }: { active: boolean; page: PageType }) => {
   return (
     <Pressable
       disabled={active}
-      onPress={() => router.replace(page.route)}
+      onPress={() => {
+        if (push) {
+          router.push({
+            pathname: page.route as ExternalPathString,
+            params: page.params,
+          });
+        } else {
+          router.replace({
+            pathname: page.route as ExternalPathString,
+            params: page.params,
+          });
+        }
+      }}
       style={styles.button}
     >
       {typeof page.icon == "string" ? (
